@@ -2,29 +2,29 @@ function Features() {
   return (
     <section className="features">
 
-      <h2>Key Features</h2>
+      <h2>Core Features</h2>
 
-      <div className="feature-container">
+      <div className="card-container">
 
         <div className="card">
-          <h3>AI Chatbot</h3>
-          <p>Chat with company knowledge using AI.</p>
+          <h3>AI Knowledge Retrieval</h3>
+          <p>Search internal company data instantly.</p>
         </div>
 
         <div className="card">
-          <h3>Document Upload</h3>
-          <p>Upload PDFs, notes and technical files.</p>
+          <h3>Slack Integration</h3>
+          <p>Convert conversations into AI-readable data.</p>
         </div>
 
         <div className="card">
-          <h3>Secure Access</h3>
-          <p>JWT Authentication for secure login.</p>
+          <h3>Smart Search</h3>
+          <p>Context-aware responses powered by RAG.</p>
         </div>
 
       </div>
 
     </section>
-  )
+  );
 }
 
-export default Features
+export default Features;
