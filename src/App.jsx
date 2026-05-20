@@ -1,70 +1,323 @@
-import { useState, useEffect } from 'react'
-
-import Navbar from './components/Navbar'
-import Hero from './components/Hero'
-import Features from './components/Features'
-import Footer from './components/Footer'
-import Workflow from './components/Workflow'
-
-import KnowledgeForm from './components/KnowledgeForm'
-import KnowledgeList from './components/KnowledgeList'
-
-import './App.css'
+import { useState, useEffect } from "react";
+import "./index.css";
 
 function App() {
 
-  const [documents, setDocuments] = useState([])
+  // PAGE TOGGLE
+  const [showPortal, setShowPortal] = useState(false);
 
+  // FORM STATES
+  const [employeeName, setEmployeeName] = useState("");
+  const [employeeRole, setEmployeeRole] = useState("");
+
+  // EMPLOYEE DATA
+  const [employees, setEmployees] = useState([]);
+
+  // ERROR STATE
+  const [error, setError] = useState("");
+
+  // useEffect Hook
   useEffect(() => {
+    console.log("Employee list updated");
+  }, [employees]);
 
-    console.log("Knowledge Base Updated")
+  // ADD EMPLOYEE
+  const addEmployee = (e) => {
+    e.preventDefault();
 
-  }, [documents])
-
-  const addDocument = (title, description) => {
-
-    const newDocument = {
-      id: Date.now(),
-      title,
-      description
+    // FORM VALIDATION
+    if (
+      employeeName.trim() === "" ||
+      employeeRole.trim() === ""
+    ) {
+      setError("Please fill all fields");
+      return;
     }
 
-    setDocuments([...documents, newDocument])
-  }
+    const newEmployee = {
+      id: Date.now(),
+      name: employeeName,
+      role: employeeRole,
+    };
 
-  const deleteDocument = (id) => {
+    // DYNAMIC STATE UPDATE
+    setEmployees([...employees, newEmployee]);
 
-    const updatedDocuments =
-      documents.filter(doc => doc.id !== id)
+    // CLEAR INPUTS
+    setEmployeeName("");
+    setEmployeeRole("");
 
-    setDocuments(updatedDocuments)
-  }
+    setError("");
+  };
+
+  // DELETE EMPLOYEE
+  const deleteEmployee = (id) => {
+
+    const updatedEmployees = employees.filter(
+      (employee) => employee.id !== id
+    );
+
+    setEmployees(updatedEmployees);
+  };
 
   return (
+    <>
+      {!showPortal ? (
 
-    <div>
+        // LANDING PAGE
+        <div>
 
-      <Navbar />
+          {/* NAVBAR */}
+          <nav className="navbar">
 
-      <Hero />
+            <h1 className="logo">
+              IntellectMerge
+            </h1>
 
-      <Features />
+            <ul className="nav-links">
+              <li><a href="#home">Home</a></li>
+              <li><a href="#features">Features</a></li>
+              <li><a href="#workflow">Workflow</a></li>
+              <li><a href="#contact">Contact</a></li>
+            </ul>
 
-      <Workflow />
+          </nav>
 
-      <KnowledgeForm
-        addDocument={addDocument}
-      />
+          {/* HERO SECTION */}
+          <section className="hero" id="home">
 
-      <KnowledgeList
-        documents={documents}
-        deleteDocument={deleteDocument}
-      />
+            <div className="hero-content">
 
-      <Footer />
+              <h2>
+                Preserve Company <br />
+                Knowledge with AI
+              </h2>
 
-    </div>
-  )
+              <p>
+                IntellectMerge helps organizations preserve
+                employee knowledge using Artificial Intelligence
+                and Retrieval-Augmented Generation (RAG).
+              </p>
+
+              <button
+                className="start-btn"
+                onClick={() => setShowPortal(true)}
+              >
+                Get Started
+              </button>
+
+            </div>
+
+            <div className="hero-image">
+
+              <img
+                src="https://images.unsplash.com/photo-1677442136019-21780ecad995"
+                alt="AI"
+              />
+
+            </div>
+
+          </section>
+
+          {/* CORE FEATURES */}
+          <section className="features" id="features">
+
+            <h2>Core Features</h2>
+
+            <div className="feature-container">
+
+              <div className="feature-card">
+                <h3>AI Chatbot</h3>
+
+                <p>
+                  Ask company-related questions and receive
+                  AI-generated answers instantly.
+                </p>
+              </div>
+
+              <div className="feature-card">
+                <h3>Knowledge Storage</h3>
+
+                <p>
+                  Store employee documents, notes and
+                  company workflows securely.
+                </p>
+              </div>
+
+              <div className="feature-card">
+                <h3>Smart Search</h3>
+
+                <p>
+                  Retrieve accurate information from the
+                  AI knowledge base quickly.
+                </p>
+              </div>
+
+            </div>
+
+          </section>
+
+          {/* WORKFLOW */}
+          <section className="workflow" id="workflow">
+
+            <h2>How IntellectMerge Works</h2>
+
+            <div className="workflow-container">
+
+              <div className="workflow-step">
+
+                <h3>1. Upload Data</h3>
+
+                <p>
+                  Company documents and employee knowledge
+                  are uploaded into the platform.
+                </p>
+
+              </div>
+
+              <div className="workflow-step">
+
+                <h3>2. AI Processing</h3>
+
+                <p>
+                  AI processes and organizes information
+                  into a searchable RAG knowledge base.
+                </p>
+
+              </div>
+
+              <div className="workflow-step">
+
+                <h3>3. Smart Retrieval</h3>
+
+                <p>
+                  Employees can ask questions and instantly
+                  retrieve company knowledge.
+                </p>
+
+              </div>
+
+            </div>
+
+          </section>
+
+          {/* FOOTER */}
+          <footer className="footer" id="contact">
+
+            <h3>IntellectMerge</h3>
+
+            <p>
+              AI-Powered Knowledge Preservation Platform
+            </p>
+
+            <p>
+              © 2026 IntellectMerge | MERN Stack Project
+            </p>
+
+          </footer>
+
+        </div>
+
+      ) : (
+
+        // EMPLOYEE PORTAL
+        <div className="portal-container">
+
+          <h1 className="portal-title">
+            Employee Knowledge Portal
+          </h1>
+
+          <p className="portal-subtitle">
+            Add employees into the IntellectMerge AI system
+          </p>
+
+          {/* FORM */}
+          <form
+            className="employee-form"
+            onSubmit={addEmployee}
+          >
+
+            <input
+              type="text"
+              placeholder="Enter Employee Name"
+              value={employeeName}
+              onChange={(e) =>
+                setEmployeeName(e.target.value)
+              }
+            />
+
+            <input
+              type="text"
+              placeholder="Enter Employee Role"
+              value={employeeRole}
+              onChange={(e) =>
+                setEmployeeRole(e.target.value)
+              }
+            />
+
+            <button type="submit">
+              Add Employee
+            </button>
+
+          </form>
+
+          {/* VALIDATION */}
+          {error && (
+            <p className="error-message">
+              {error}
+            </p>
+          )}
+
+          {/* DYNAMIC RENDERING */}
+          <div className="employee-list">
+
+            {employees.length === 0 ? (
+
+              <p className="empty-message">
+                No Employees Added
+              </p>
+
+            ) : (
+
+              employees.map((employee) => (
+
+                <div
+                  className="employee-card"
+                  key={employee.id}
+                >
+
+                  <h3>{employee.name}</h3>
+
+                  <p>{employee.role}</p>
+
+                  <button
+                    className="delete-btn"
+                    onClick={() =>
+                      deleteEmployee(employee.id)
+                    }
+                  >
+                    Delete
+                  </button>
+
+                </div>
+
+              ))
+            )}
+
+          </div>
+
+          {/* BACK BUTTON */}
+          <button
+            className="back-btn"
+            onClick={() => setShowPortal(false)}
+          >
+            Back to Home
+          </button>
+
+        </div>
+      )}
+    </>
+  );
 }
 
-export default App
+export default App;
