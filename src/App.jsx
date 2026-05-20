@@ -3,29 +3,25 @@ import "./index.css";
 
 function App() {
 
-  // PAGE TOGGLE
   const [showPortal, setShowPortal] = useState(false);
 
-  // FORM STATES
   const [employeeName, setEmployeeName] = useState("");
   const [employeeRole, setEmployeeRole] = useState("");
 
-  // EMPLOYEE DATA
   const [employees, setEmployees] = useState([]);
 
-  // ERROR STATE
+
   const [error, setError] = useState("");
 
-  // useEffect Hook
   useEffect(() => {
     console.log("Employee list updated");
   }, [employees]);
 
-  // ADD EMPLOYEE
+
   const addEmployee = (e) => {
     e.preventDefault();
 
-    // FORM VALIDATION
+  
     if (
       employeeName.trim() === "" ||
       employeeRole.trim() === ""
@@ -40,17 +36,16 @@ function App() {
       role: employeeRole,
     };
 
-    // DYNAMIC STATE UPDATE
+  
     setEmployees([...employees, newEmployee]);
 
-    // CLEAR INPUTS
     setEmployeeName("");
     setEmployeeRole("");
 
     setError("");
   };
 
-  // DELETE EMPLOYEE
+
   const deleteEmployee = (id) => {
 
     const updatedEmployees = employees.filter(
@@ -64,7 +59,7 @@ function App() {
     <>
       {!showPortal ? (
 
-        // LANDING PAGE
+        
         <div>
 
           {/* NAVBAR */}
@@ -220,7 +215,7 @@ function App() {
 
       ) : (
 
-        // EMPLOYEE PORTAL
+    
         <div className="portal-container">
 
           <h1 className="portal-title">
